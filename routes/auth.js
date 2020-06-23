@@ -87,10 +87,30 @@ router.get(
   roleAuthorization(['admin', 'client']),
   async (req, res) => {
     try {
-      const user = await User.findById({ _id: req.user._id });
+      const user = await User.findById({ _id: req.user._id }, { password: 0 });
       return res.status(200).send(user);
     } catch (err) {
       return res.status(400).send({ error: 'User not found' });
+    }
+  }
+);
+
+/**Update User information */
+router.put(
+  '/api/update-user',
+  requireAuth,
+  roleAuthorization(['admin', 'client']),
+  async (req, res) => {
+    try {
+      const user = await User.findById({ _id: req.user._id });
+      if (!user) {
+        return res.status(400).send({ message: 'User does not exist' });
+      }
+
+      await User.updateOne({ _id: req.user._id }, req.body);
+      return res.status(200).send({ message: 'User updated' });
+    } catch (err) {
+      return res.status(400).send({ error: err.message });
     }
   }
 );
