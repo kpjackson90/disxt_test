@@ -10,3 +10,4 @@ To run tests
 - `run npm run test`
 
 - Note this app is just for testing, real environmental variables should not be exposed in a docker file.
+- Note Logout was omitted because since I was using JWT, logout functionality is better handled on the client side by removing the token.
