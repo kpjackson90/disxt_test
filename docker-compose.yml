@@ -1,0 +1,18 @@
+version: '3'
+services:
+  api:
+    container_name: disxt_test
+    restart: always
+    build: .
+    ports:
+      - '8080:5000'
+    links:
+      - mongo
+    environment:
+      JWT_SECRET: 'this is a secret'
+  mongo:
+    image: mongo
+    volumes:
+      - /data/db:/data/db
+    ports:
+      - '27017:27017'
